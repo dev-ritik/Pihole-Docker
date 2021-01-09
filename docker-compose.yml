@@ -1,0 +1,20 @@
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/blob/master/README.md#installing-on-ubuntu and https://docs.pi-hole.net/
+services:
+  pihole:
+    build: .
+    container_name: pihole
+    network_mode: host
+    environment:
+      TZ: 'Asia/Calcutta'
+      DNSMASQ_USER: root
+      # Gravity on boot leads to DNS resolution on boot issues
+      SKIPGRAVITYONBOOT: 1
+      # DNSMASQ_LISTENING: all
+    volumes:
+      - '/usr/share/pihole/etc-pihole/:/etc/pihole/'
+      - '/usr/share/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
